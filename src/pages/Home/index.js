@@ -26,6 +26,13 @@ export default function Home() {
     loadAPI();
   }, []);
 
+  function handleAddProduct(product) {
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
+  }
+
   return (
     <ProductList>
       {products.map(product => (
@@ -36,7 +43,7 @@ export default function Home() {
           />
           <strong>{product.title}</strong>
           <span>{product.formattedPrice}</span>
-          <button type="button">
+          <button onClick={() => handleAddProduct(product)} type="button">
             <div>
               <MdShoppingCart size={16} color="#FFF"/> 3
             </div>

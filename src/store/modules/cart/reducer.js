@@ -7,11 +7,11 @@ export default function cart(state = [], action) {
         const productIndex = draft.findIndex(p => p.id === action.product.id);
         
         if (productIndex >= 0) {
-          draft[productIndex].amout += 1;
+          draft[productIndex].amount += 1;
         } else {
           draft.push({
             ...action.product, 
-            amout: 1
+            amount: 1
           });
         }
       });
@@ -25,6 +25,19 @@ export default function cart(state = [], action) {
         }
       });
 
+    case 'UPDATE_AMOUNT': {
+      if (action.amount <= 0) {
+        return state;
+      }
+
+      return produce(state, draft => {
+        const productIndex = draft.findIndex(p => p.id === action.id);
+
+        if (productIndex >= 0) {
+          draft[productIndex].amount = Number(action.amount)
+        }
+      });
+    }
     default:
       return state;
   }

@@ -2,11 +2,21 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {MdRemoveCircleOutline, MdAddCircleOutline, MdDelete} from 'react-icons/md'
 
+import * as CartActions from '../../store/modules/cart/actions';
+
 import { Container, ProductTable, Total } from './styles';
 
 export default function Cart() {
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
+
+  function increment(product) {
+    dispatch(CartActions.updateAmount(product.id, product.amount + 1));
+  }
+  
+  function decrement(product) {
+    dispatch(CartActions.updateAmount(product.id, product.amount - 1));
+  }
 
   return (
     <Container>
@@ -35,11 +45,11 @@ export default function Cart() {
               </td>
               <td>
                 <div>
-                  <button type="button">
+                  <button type="button" onClick={() => decrement(product)}>
                     <MdRemoveCircleOutline size={20} color="#7159c1"/>
                   </button>
-                  <input type="number" readOnly value={product.amout}/>
-                  <button type="button">
+                  <input type="number" readOnly value={product.amount}/>
+                  <button type="button" onClick={() => increment(product)}>
                     <MdAddCircleOutline size={20} color="#7159c1"/>
                   </button>
                 </div>
@@ -49,7 +59,7 @@ export default function Cart() {
               </td>
               <td>
                 <button type="button ">
-                  <MdDelete size={20} onClick={() => dispatch({ type: 'REMOVE_FROM_CART', id: product.id})} color="7159c1"/>
+                  <MdDelete size={20} onClick={() => dispatch(CartActions.removeFromCart(product.id))} color="7159c1"/>
                 </button>
               </td>
             </tr>

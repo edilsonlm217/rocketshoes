@@ -16,17 +16,27 @@ export default function Cart() {
       });
       
     } else {
+        const sub_total = state.cart.map(product => ({
+          ...product,
+          sub_total: formatPrice(product.price * product.amount),
+        }));
+      
+        let total = 0;
+
+        // eslint-disable-next-line
+        sub_total.map(product => {
+          total = total + (product.price * product.amount);
+        })
+
       return ({
         cart: state.cart.map(product => ({
           ...product,
           sub_total: formatPrice(product.price * product.amount),
         })),
-        total: 1234,
+        total: formatPrice(total),
       });
     }
   });
-
-  console.tron.log(cart);
 
   const dispatch = useDispatch();
 
